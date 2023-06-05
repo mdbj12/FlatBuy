@@ -10,7 +10,7 @@ STRETCH GOALS:
 Created by Michael Jeung, Cliff Gokul, Michael Maurer, Queena Feng
 
 export FLASK_APP=app.py
- export FLASK_RUN_PORT=5555
- flask db init
- flask db revision --autogenerate -m "test"
- flask db upgrade head
+export FLASK_RUN_PORT=5555
+flask db init
+flask db revision --autogenerate -m "test"
+flask db upgrade head
