@@ -60,6 +60,7 @@ class Item(db.Model, SerializerMixin):
     name = db.Column(db.String)
     inventory_count = db.Column(db.Integer)
     price = db.Column(db.Float)
+    description = db.Column(db.String)
     rating = db.relationship('Rating', backref='item')
     image = db.Column(db.String)
     cart_items = db.relationship('CartItem', backref='item')
