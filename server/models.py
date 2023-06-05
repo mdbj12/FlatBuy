@@ -21,6 +21,8 @@ class Consumer(db.Model, SerializerMixin):
     rating = db.relationship('Rating', backref='consumer')
     cart = db.relationship('Cart', backref='consumer')
 
+    serialize_rules = ('-password', '-cart', '-rating')
+
 class Cart(db.Model, SerializerMixin):
     __tablename__ = 'carts'
 
@@ -30,6 +32,9 @@ class Cart(db.Model, SerializerMixin):
     updated_at = db.Column(db.DateTime, onupdate=db.func.now())
     cart_items = db.relationship('CartItem', backref='cart')
 
+    serialize_rules = ('-cart_items',)
+    
+
 
 class CartItem(db.Model, SerializerMixin):
     __tablename__ = 'cart_items'
@@ -38,10 +43,10 @@ class CartItem(db.Model, SerializerMixin):
     cart_id = db.Column(db.Integer, db.ForeignKey('carts.id'))
     item_id = db.Column(db.Integer, db.ForeignKey('items.id'))
     quantity = db.Column(db.Integer)
-    # cart = db.relationship('Cart', backref='cart_items')
-    # item = db.relationship('Item', backref='cart_items')
     created_at = db.Column(db.DateTime, server_default=db.func.now())
     updated_at = db.Column(db.DateTime, onupdate=db.func.now())
+
+    serialize_rules = ('-cart', '-item')
 
 
 class Rating(db.Model, SerializerMixin):
@@ -60,12 +65,15 @@ class Item(db.Model, SerializerMixin):
     name = db.Column(db.String)
     inventory_count = db.Column(db.Integer)
     price = db.Column(db.Float)
+    category = db.Column(db.String)
     description = db.Column(db.String)
     rating = db.relationship('Rating', backref='item')
     image = db.Column(db.String)
     cart_items = db.relationship('CartItem', backref='item')
     created_at = db.Column(db.DateTime, server_default=db.func.now())
     updated_at = db.Column(db.DateTime, onupdate=db.func.now())
+
+    serialize_rules = ('-cart_items', '-rating')
     
 
 

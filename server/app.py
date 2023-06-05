@@ -2,7 +2,7 @@ from flask import Flask, make_response, jsonify, request
 from flask_migrate import Migrate
 from flask_restful import Api, Resource
 
-from models import db, Consumer
+from models import db, Consumer, Item
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///app.db'
@@ -44,6 +44,7 @@ class Create_User(Resource):
         user = Consumer.query.filter_by(username=username).first()
         if user is not None:
             return make_response(jsonify({'error': 'Username already exists'}), 409)
+          
         user = Consumer(
             username=username, 
             password=password, 
@@ -88,3 +89,18 @@ class Update_Cart(Resource, Id):
         return make_response(jsonify({'message': 'success, cart updated'}))
 api.add_resource(Update_Cart, '/update_cart/<int:id>')
         
+
+class Get_Items(Resource):
+    def get(self):
+        items = Item.query.all()
+        try:
+      
+         return make_response(jsonify({'items': [item.to_dict() for item in items]}), 200)
+        except:
+            return make_response(jsonify({'error': 'Items not found'}), 404)
+api.add_resource(Get_Items, '/get_items')
+
+
+
+if __name__ == '__main__':
+    app.run(port=5555, debug=True)
