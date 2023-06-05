@@ -1,40 +1,72 @@
 from flask_sqlalchemy import SQLAlchemy
-from sqlalchemy import MetaData
 from sqlalchemy.orm import validates
 from sqlalchemy.ext.associationproxy import association_proxy
 from sqlalchemy_serializer import SerializerMixin
 
-metadata = MetaData(naming_convention={
-    "fk": "fk_%(table_name)s_%(column_0_name)s_%(referred_table_name)s",
-})
-
-db = SQLAlchemy(metadata=metadata)
+db = SQLAlchemy()
 
 class Consumer(db.Model, SerializerMixin):
-    __tablename__ = 'comsumer'
+    __tablename__ = 'consumers'
 
-    id = db.Column(db.Integer, primaryKey=True)
-    name = db.Column(db.String)
+    id = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.String)
+    password = db.Column(db.String)
+    email = db.Column(db.String)
+    first_name = db.Column(db.String)
+    last_name = db.Column(db.String)    
     address = db.Column(db.String)
-    pass
+    phone_number = db.Column(db.Integer)
+    created_at = db.Column(db.DateTime, server_default=db.func.now())
+    updated_at = db.Column(db.DateTime, onupdate=db.func.now())
+    rating = db.relationship('Rating', backref='consumer')
+    cart = db.relationship('Cart', backref='consumer')
 
-class Vendor(db.Model, SerializerMixin):
-    __tablename__ = 'vendor'
+class Cart(db.Model, SerializerMixin):
+    __tablename__ = 'carts'
 
-    id = db.Column(db.Integer, primaryKey=True)
-    name = db.Column(db.String)
-    pass
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('consumers.id'))
+    created_at = db.Column(db.DateTime, server_default=db.func.now())
+    updated_at = db.Column(db.DateTime, onupdate=db.func.now())
+    cart_items = db.relationship('CartItem', backref='cart')
 
-class Items(db.Model, SerializerMixin):
+
+class CartItem(db.Model, SerializerMixin):
+    __tablename__ = 'cart_items'
+
+    id = db.Column(db.Integer, primary_key=True)
+    cart_id = db.Column(db.Integer, db.ForeignKey('carts.id'))
+    item_id = db.Column(db.Integer, db.ForeignKey('items.id'))
+    quantity = db.Column(db.Integer)
+    # cart = db.relationship('Cart', backref='cart_items')
+    # item = db.relationship('Item', backref='cart_items')
+    created_at = db.Column(db.DateTime, server_default=db.func.now())
+    updated_at = db.Column(db.DateTime, onupdate=db.func.now())
+
+
+class Rating(db.Model, SerializerMixin):
+    __tablename__ = 'ratings'
+
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('consumers.id'))
+    item_id = db.Column(db.Integer, db.ForeignKey('items.id'))
+    rate_score = db.Column(db.Integer)
+
+
+class Item(db.Model, SerializerMixin):
     __tablename__ = 'items'
 
-    id = db.Column(db.Integer, primaryKey=True)
+    id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String)
     inventory_count = db.Column(db.Integer)
+    price = db.Column(db.Float)
+    description = db.Column(db.String)
+    rating = db.relationship('Rating', backref='item')
+    image = db.Column(db.String)
+    cart_items = db.relationship('CartItem', backref='item')
+    created_at = db.Column(db.DateTime, server_default=db.func.now())
+    updated_at = db.Column(db.DateTime, onupdate=db.func.now())
+    
 
-    @validates('inventory_count')
-    def validate_inventory(self, key, inventory_count):
-        if inventory_count > 0:
-            return inventory_count
-        raise ValueError('No Existing Inventory')
-    pass
+
+    
