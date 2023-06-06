@@ -1,14 +1,15 @@
 from flask import Flask, make_response, jsonify, request
 from flask_migrate import Migrate
 from flask_restful import Api, Resource
+from flask_cors import CORS
 
 from models import db, Consumer, Item
 
 app = Flask(__name__)
+CORS(app)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///app.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.json.compact = False
-
 migrate = Migrate(app, db)
 
 db.init_app(app)
@@ -78,16 +79,16 @@ class Create_Cart(Resource):
         return make_response(jsonify({'message': "cart created"}), 201)
 api.add_resource(Create_Cart, '/create_cart')
 
-class Update_Cart(Resource, Id):
-    def patch(self, id):
-        cart_update = Cart.query.filter_by(id=id).first().to_dict()
-        data = request.get_json()
-        for attr in data:
-            setattr(cart_update, attr, data[attr])
-        db.session.add(cart_update)
-        db.session.commit()
-        return make_response(jsonify({'message': 'success, cart updated'}))
-api.add_resource(Update_Cart, '/update_cart/<int:id>')
+# class Update_Cart(Resource, Id):
+#     def patch(self, id):
+#         cart_update = Cart.query.filter_by(id=id).first().to_dict()
+#         data = request.get_json()
+#         for attr in data:
+#             setattr(cart_update, attr, data[attr])
+#         db.session.add(cart_update)
+#         db.session.commit()
+#         return make_response(jsonify({'message': 'success, cart updated'}))
+# api.add_resource(Update_Cart, '/update_cart/<int:id>')
         
 
 class Get_Items(Resource):
