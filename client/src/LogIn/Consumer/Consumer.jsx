@@ -1,9 +1,10 @@
+import './Consumer.css'
 import React from 'react';
 
 const Consumer = () => {
     return (
         <div>
-            <p>USER INFO</p>
+            <p>CONSUMER SCREEN</p>
         </div>
     )
 }

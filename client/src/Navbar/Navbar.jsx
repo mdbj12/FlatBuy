@@ -1,29 +1,23 @@
 import React from 'react';
-import {Route, Routes, BrowserRouter} from 'react-router-dom';
-import Homepage from '../Homepage/Homepage';
-import Login from '../LogIn/Login';
-
-// const Navbar = () => {
-//     return (
-//         <nav>
-//             <div className='flex flex-wrap items-center justify-between mx-auto p4'>
-//                 <p>NAVBAR WITH LINKS</p>
-                
-//             </div>
-//         </nav>
-//     )   
-// }
-
-// export default Navbar
+import './Navbar.css';
+import { Link } from 'react-router-dom';
+import SearchBar from '../SearchBar/Searchbar';
 
 const Navbar = () => {
     return (
-        <BrowserRouter>
-        <Routes>
-            <Route path='/' element={<Homepage />} />
-            <Route path='Log-In' element={<Login />} />
-        </Routes>
-        </BrowserRouter>
+        <div>
+            <ul className='place-items-center self-center list-none'>
+                <li className='flex-1'>
+                    <Link to='/'>HOME</Link>
+                </li>
+                <li className='flex-1'>
+                    <Link to='Login'>LOGIN</Link>
+                </li>
+            </ul>
+            <div>
+                <SearchBar />
+            </div>
+        </div>
     )
 }
 
