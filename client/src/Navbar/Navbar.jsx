@@ -1,7 +1,5 @@
 import React from 'react';
-import './Navbar.css';
 import { Link } from 'react-router-dom';
-import SearchBar from '../SearchBar/Searchbar';
 
 const Navbar = () => {
     return (
@@ -11,12 +9,12 @@ const Navbar = () => {
                     <Link to='/'>HOME</Link>
                 </li>
                 <li className='flex-1'>
-                    <Link to='Login'>LOGIN</Link>
+                    <Link to='Login'>SIGNUP/LOGIN</Link>
+                </li>
+                <li>
+                    <Link to='Cart'>CART</Link>
                 </li>
             </ul>
-            <div>
-                <SearchBar />
-            </div>
         </div>
     )
 }
