@@ -1,67 +1,118 @@
-from flask import Flask, make_response, jsonify, request
+import os
+import pathlib
+import requests
+from flask import Flask, session, abort, redirect, request
 from flask_migrate import Migrate
 from flask_restful import Api, Resource
+from models import db, Consumer, Item, Cart, CartItem
+from google.oauth2 import id_token
+from google_auth_oauthlib.flow import Flow
+from pip._vendor import cachecontrol
+import google.auth.transport.requests
 
-from models import db, Consumer, Item
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///app.db'
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+app.secret_key = ""  # make sure this matches with what's in client_secret.json
+app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///db.sqlite"
+app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 app.json.compact = False
 
-migrate = Migrate(app, db)
+os.environ["OAUTHLIB_INSECURE_TRANSPORT"] = "1"  # to allow HTTP traffic for local dev
 
+GOOGLE_CLIENT_ID = ""
+client_secrets_file = os.path.join(pathlib.Path(__file__).parent, "client_secret.json")
+
+flow = Flow.from_client_secrets_file(
+    client_secrets_file=client_secrets_file,
+    scopes=["https://www.googleapis.com/auth/userinfo.profile", "https://www.googleapis.com/auth/userinfo.email", "openid"],
+    redirect_uri="http://127.0.0.1:5556/callback"
+)
+
+migrate = Migrate(app, db)
 db.init_app(app)
 api = Api(app)
 
-@app.route('/')
+
+def login_is_required(function):
+    def wrapper(*args, **kwargs):
+        if "google_id" not in session:
+            return abort(401)  # Authorization required
+        else:
+            return function(*args, **kwargs)
+
+    return wrapper
+
+@app.route("/login")
+def login():
+    authorization_url, state = flow.authorization_url()
+    session["state"] = state
+    return redirect(authorization_url)
+
+@app.route("/callback")
+def callback():
+    flow.fetch_token(authorization_response=request.url)
+
+    if not session["state"] == request.args["state"]:
+        abort(500)  # State does not match!
+
+    credentials = flow.credentials
+    request_session = requests.session()
+    cached_session = cachecontrol.CacheControl(request_session)
+    token_request = google.auth.transport.requests.Request(session=cached_session)
+
+    try:
+        id_info = id_token.verify_oauth2_token(
+            id_token=credentials._id_token,
+            request=token_request,
+            audience=GOOGLE_CLIENT_ID,
+            clock_skew_in_seconds=0
+        )
+        session["google_id"] = id_info.get("sub")
+        session["name"] = id_info.get("name")
+        session["email"] = id_info.get("email")
+        if not Consumer.query.filter_by(email=session["email"]).first():
+            new_consumer = Consumer(name=session['name'], email=session['email'])
+            db.session.add(new_consumer)
+            db.session.commit()
+        return redirect("/protected_area")
+    except google.auth.exceptions.InvalidValue as e:
+        print("Token validation error:", e)
+        return "Token validation error. Please try again later."
+    except Exception as e:
+        print("An error occurred during token verification:", e)
+        return "An error occurred during token verification. Please try again."
+
+@app.route("/logout")
+def logout():
+    session.clear()
+    return redirect("/")
+
+@app.route("/")
 def index():
-    return '<h1>HOMEPAGE</h1>'
+    return "Hello World <a href='/login'><button>Login</button></a>"
 
-class Login(Resource):
-    def post(self):
-        data = request.get_json()
-        username = data['username']
-        password = data['password']
-        user = Consumer.query.filter_by(username=username).first()
-        if user is None:
-            return make_response(jsonify({'error': 'User not found'}), 404)
-        if user.password != password:
-            return make_response(jsonify({'error': 'Invalid password'}), 401)
-        return make_response(jsonify({'message': 'Login successful'}), 200)
-api.add_resource(Login, '/login')
-
-class Create_User(Resource):
-    def post(self):
-        data = request.get_json()
-        username = data['username']
-        password = data['password']
-        email = data['email']
-        first_name = data['first_name']
-        last_name = data['last_name']
-        address = data['address']
-        phone_number = data['phone_number']
-        user = Consumer.query.filter_by(username=username).first()
-        if user is not None:
-            return make_response(jsonify({'error': 'Username already exists'}), 409)
-        user = Consumer(username=username, password=password, email=email, first_name=first_name, last_name=last_name, address=address, phone_number=phone_number)
-        db.session.add(user)
-        db.session.commit()
-        return make_response(jsonify({'message': 'User created'}), 201)
-api.add_resource(Create_User, '/create_user')
-
+@app.route("/protected_area")   
+@login_is_required
+def protected_area():
+    return f"Hello {session['name']}! <br/> <a href='/logout'><button>Logout</button></a>"
 
 class Get_Items(Resource):
     def get(self):
         items = Item.query.all()
+        return [item.to_dict() for item in items]
+api.add_resource(Get_Items, '/items')
+
+class Get_Cart_by_consumer(Resource):
+    def get(self, consumer_id):
         try:
-      
-         return make_response(jsonify({'items': [item.to_dict() for item in items]}), 200)
-        except:
-            return make_response(jsonify({'error': 'Items not found'}), 404)
-api.add_resource(Get_Items, '/get_items')
+            cart = Cart.query.filter_by(user_id=consumer_id).first()
+            cartitem = CartItem.query.filter_by(cart_id=cart.id).all()
+            return [item.to_dict() for item in cartitem]
+        except: 
+            return {'message': 'No cart found'}
+        
+api.add_resource(Get_Cart_by_consumer, '/cart/<int:consumer_id>')
 
 
-
-if __name__ == '__main__':
-    app.run(port=5555, debug=True)
+if __name__ == "__main__":
+    app.run(host='127.0.0.1', port=5556, debug=True)
