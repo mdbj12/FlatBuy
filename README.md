@@ -16,6 +16,8 @@ Back-End Commands
 - flask db init
 - flask db revision --autogenerate -m "test"
 - flask db upgrade head
+- pipenv install && pipenv shell
+- python app.py (to start flask server)
 
 Starting both server and client model
 - honcho start -f Procfile.dev

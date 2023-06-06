@@ -1,20 +1,27 @@
 import React, { useEffect, useState } from "react";
-import ItemsList from "./ItemsList"
+import ItemsList from "./Items/ItemsList"
 import SearchBar from '../SearchBar/Searchbar';
 
 function Homepage() {
     const [items, setItems] = useState([]);
-    // const [searchItems, setSearchItems] = useState([]);
+    const [searchInput, setSearchInput] = useState('');
+
     useEffect(() => {
         fetch("http://127.0.0.1:5555/get_items")
             .then((r) => r.json())
-            .then((itemsArray) => {
-                setItems([itemsArray])
+            .then((data) => {
+                setItems(data.items);
             });
         
         }, []);
-        
-    // console.log(items, "is this working??");
+
+    function handleSearch(input){
+        setSearchInput(input);
+    }
+    
+    const filterItems = items.filter((item) => {
+        return item.name.toLowerCase().includes(searchInput.toLowerCase());
+    });
 
     return (
       <>
@@ -22,9 +29,8 @@ function Homepage() {
           <h1>FLATBUY HOMEPAGE</h1>
         </div>
         <div>
-          <SearchBar />
-          <ItemsList items={items}/>
-          {/* <SearchBar searchItems={searchItems} /> */}
+          <SearchBar searchInput={searchInput} handleSearch={handleSearch} />
+          <ItemsList items={filterItems} />
         </div>
       </>
     );
