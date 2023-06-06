@@ -16,3 +16,6 @@ Back-End Commands
 - flask db init
 - flask db revision --autogenerate -m "test"
 - flask db upgrade head
+
+Starting both server and client model
+- honcho start -f Procfile.dev
