@@ -9,6 +9,37 @@ STRETCH GOALS:
 
 Created by Michael Jeung, Cliff Gokul, Michael Maurer, Queena Feng
 
+Routes
+/items
+- get all items
+
+/items/<int:item_id>
+- get item by id
+- patch item by id
+
+/cart/<int:consumer_id>
+- get cart by id
+
+/cart/<int:consumer_id>/<int:item_id>
+- add item to cart by consumer_id and item_id not sure if this works
+- remove item from cart by consumer_id and item_id not sure if this works
+
+/rating/<int:item_id>
+- get rating by item_id
+- get comment by item_id
+- post rating by item_id
+- post comment by item_id
+
+
+grab the current logged in user from the logged in session
+const [userData, setUserData] = useState(null);
+
+  useEffect(() => {
+    fetch('/protected_area')
+      .then(response => response.json())
+      .then(data => setUserData(data))
+      .catch(error => console.error(error));
+  }, []);
 
 Back-End Commands
 - export FLASK_APP=app.py

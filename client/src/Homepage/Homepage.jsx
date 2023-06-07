@@ -1,18 +1,18 @@
 import React, { useEffect, useState } from "react";
 import ItemsList from "./Items/ItemsList"
-import SearchBar from '../SearchBar/Searchbar';
+import SearchBar from './SearchBar/Searchbar';
 
-function Homepage() {
+const Homepage = () => {
+    // fetching item data
     const [items, setItems] = useState([]);
     const [searchInput, setSearchInput] = useState('');
 
     useEffect(() => {
-        fetch("http://127.0.0.1:5555/get_items")
+        fetch("http://127.0.0.1:5556/items")
             .then((r) => r.json())
             .then((data) => {
-                setItems(data.items);
+                setItems(data);
             });
-        
         }, []);
 
     function handleSearch(input){
@@ -23,11 +23,24 @@ function Homepage() {
         return item.name.toLowerCase().includes(searchInput.toLowerCase());
     });
 
+    // fetching review data for item based on item_id
+    // const [reviews, setReviews] = useState([]);
+
+    // useEffect(() => {
+    //     fetch(`http://127.0.0.1:5555/rating/${item_id}`)
+    //         .then((r) => r.json())
+    //         .then((data) => {
+    //             setReviews(data)
+    //         });
+    // }, []);
+
+    // const filterReviews = reviews.filter((review) => {
+    //     return review.name.toLowerCase().includes(searchInput.toLowerCase())
+    // });
+
     return (
       <>
-        <div className="text-center">
-          <h1>FLATBUY HOMEPAGE</h1>
-        </div>
+        <h1 className="text-center text-5xl ">FLATBUY HOMEPAGE</h1>
         <div>
           <SearchBar searchInput={searchInput} handleSearch={handleSearch} />
           <ItemsList items={filterItems} />

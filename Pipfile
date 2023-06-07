@@ -11,6 +11,13 @@ flask-restful = "*"
 sqlalchemy-serializer = "*"
 flask-cors = "*"
 honcho = "*"
+python-dotenv = "*"
+authlib = "*"
+flask-authlib-client = "*"
+requests = "*"
+google-auth = "*"
+google-auth-oauthlib = "*"
+cors = "*"
 
 [dev-packages]
 
