@@ -1,7 +1,7 @@
 import os
 import pathlib
 import requests
-from flask import Flask, session, abort, redirect, request, jsonify
+from flask import Flask, session, abort, redirect, request, jsonify, url_for
 from flask_migrate import Migrate
 from flask_restful import Api, Resource
 from flask_cors import CORS
@@ -11,6 +11,7 @@ from google_auth_oauthlib.flow import Flow
 from pip._vendor import cachecontrol
 import google.auth.transport.requests
 import json
+import urllib.parse
 client_secrets_loc = open("./client_secret.json")
 client_secrets_keys = json.load(client_secrets_loc)
 
@@ -104,7 +105,9 @@ def protected_area():
             "name": session["name"],
             "email": session["email"]
         }
-        return jsonify(user_data)
+        session_data = urllib.parse.quote(json.dumps(user_data))
+        redirect_url = 'http://localhost:3000/?session_data=' + session_data
+        return redirect(redirect_url)
     else:
         return jsonify({"error": "User not found"})
 
@@ -124,6 +127,7 @@ class Get_Items(Resource):
 api.add_resource(Get_Items, '/items')
 
 class Get_Item_By_ID(Resource):
+    @login_is_required
     def get(self, item_id):
         try :
             item = Item.query.filter_by(id=item_id).first()

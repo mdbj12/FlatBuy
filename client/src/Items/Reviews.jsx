@@ -7,15 +7,17 @@ const Reviews = ({item}) => {
         .then((r) => r.json())
         .then((data) => {
             setReviews(data)
-            // console.log(data)
+            console.log(data)
         });
     }, []);
 
     const single_review = reviews.map(r => {
-    return <div key={r.id}>
+    return (
+        <div key={r.id}>
             <p>{r.comment}</p>
             <p>{r.rate_score}</p>
-            </div>
+        </div>
+    )
     })
 
     return (

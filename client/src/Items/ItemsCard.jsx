@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Reviews from "./Reviews";
-import Cart from "./Cart";
+import Cart from "../Login/Cart";
 
 function ItemsCard({ item }) {
   const [cardFlip, setCardFlip] = useState(false)

@@ -3,14 +3,14 @@ import { Link } from 'react-router-dom';
 
 const Navbar = () => {
     return (
-        <ul className='flex bg-blue-500 h-8'>
+        <ul className='flex bg-blue-500 h-8 text-center'>
             <li className='flex-1'>
                 <Link to='/'>HOME</Link>
             </li>
             <li className='flex-1'>
-                <Link to='Login'>SIGNUP/LOGIN</Link>
+                <Link to='Login'>{true ? "Login":"Logout"}</Link>
             </li>
-            <li>
+            <li className='flex-1'>
                 <Link to='Cart'>CART</Link>
             </li>
         </ul>

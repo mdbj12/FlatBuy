@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react";
-import ItemsList from "./Items/ItemsList"
-import SearchBar from './Searchbar';
+import ItemsList from "../Items/ItemsList";
+import SearchBar from "./Searchbar";
 
 const Homepage = () => {
   // fetching item data
   const [items, setItems] = useState([]);
   const [searchInput, setSearchInput] = useState('');
+  const [userData, setUserData] = useState(null);
 
   useEffect(() => {
     fetch("http://127.0.0.1:5556/items")
@@ -14,6 +15,18 @@ const Homepage = () => {
           setItems(data);
       });
   }, []);
+
+  useEffect(() => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const sessionData = urlParams.get('session_data');
+
+    if (sessionData){
+      const userData = JSON.parse(sessionData);
+      setUserData(userData);
+    }
+  }, []);
+
+  console.log(userData)
 
   const filterItems = items.filter((item) => {
       return item.name.toLowerCase().includes(searchInput.toLowerCase());
