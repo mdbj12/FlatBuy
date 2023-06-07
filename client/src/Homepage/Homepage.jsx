@@ -1,53 +1,63 @@
 import React, { useEffect, useState } from "react";
-import ItemsList from "./Items/ItemsList"
-import SearchBar from './SearchBar/Searchbar';
+import ItemsList from "./Items/ItemsList";
+import SearchBar from "./SearchBar/Searchbar";
 
 const Homepage = () => {
-    // fetching item data
-    const [items, setItems] = useState([]);
-    const [searchInput, setSearchInput] = useState('');
+  // fetching item data
+  const [items, setItems] = useState([]);
+  const [searchInput, setSearchInput] = useState("");
+  const [userData, setUserData] = useState(null); // Initialize state to null
 
-    useEffect(() => {
-        fetch("http://127.0.0.1:5556/items")
-            .then((r) => r.json())
-            .then((data) => {
-                setItems(data);
-            });
-        }, []);
 
-    function handleSearch(input){
-        setSearchInput(input);
-    }
+  function handleSearch(input) {
+    setSearchInput(input);
+  }
+
+  
+  useEffect(() => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const sessionData = urlParams.get('session_data');
     
-    const filterItems = items.filter((item) => {
-        return item.name.toLowerCase().includes(searchInput.toLowerCase());
+    if (sessionData) {
+      const userData = JSON.parse(sessionData);
+      setUserData(userData);
+    }
+  }, []);
+  
+  useEffect(() => {
+    fetch("http://127.0.0.1:5556/items")
+    .then((r) => r.json())
+    .then((data) => {
+      setItems(data);
     });
+  }, []);
+  
+  const filterItems = items.filter((item) => {
+    return item.name.toLowerCase().includes(searchInput.toLowerCase());
+  });
+  
+  console.log(userData);
 
-    // fetching review data for item based on item_id
-    // const [reviews, setReviews] = useState([]);
-
-    // useEffect(() => {
-    //     fetch(`http://127.0.0.1:5555/rating/${item_id}`)
-    //         .then((r) => r.json())
-    //         .then((data) => {
-    //             setReviews(data)
-    //         });
-    // }, []);
-
-    // const filterReviews = reviews.filter((review) => {
-    //     return review.name.toLowerCase().includes(searchInput.toLowerCase())
-    // });
-
-    return (
-      <>
-        <h1 className="text-center text-5xl ">FLATBUY HOMEPAGE</h1>
-        <div>
-          <SearchBar searchInput={searchInput} handleSearch={handleSearch} />
-          <ItemsList items={filterItems} />
-        </div>
-      </>
-    );
-}
-
+  return (
+    <>
+      <h1
+        className="text-center text-5xl "
+        style={{
+          color: "#F59E0B",
+          fontFamily: "Roboto",
+          fontWeight: "bold",
+          marginTop: "2rem",
+          marginBottom: "2rem",
+        }}
+      >
+        THE FLATBUY
+      </h1>
+      <div>
+        <SearchBar searchInput={searchInput} handleSearch={handleSearch} />
+        <ItemsList items={filterItems} />
+      </div>
+    </>
+  );
+};
 
 export default Homepage;

@@ -1,0 +1,40 @@
+.Cards {
+    display: left;
+    flex-wrap: wrap;
+    flex-direction: row;
+    justify-content: left; 
+    align-items: center;
+    margin: 0 auto;
+    width: 15%;
+    max-width: 1200px;
+    padding: 0 20px;
+    box-sizing: border-box;
+    margin-bottom: 20px;
+    margin-top: 20px;
+    border: 1px solid #100e0e;
+    border-radius: 5px;
+    background-color: #100e0e;
+    color: #fff;
+    font-family: 'Roboto', sans-serif;
+    font-size: 16px;
+    font-weight: 300;
+    line-height: 1.5;
+    text-align: center;
+    text-decoration: none;
+    transition: all 0.2s ease-in-out;
+    cursor: pointer;
+    &:hover {
+        transform: scale(1.05);
+        box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    }
+    @media screen and (max-width: 960px) {
+        width: 25%;
+    }
+    @media screen and (max-width: 768px) {
+        width: 50%;
+    }
+    @media screen and (max-width: 480px) {
+        width: 100%;
+    }
+    
+}

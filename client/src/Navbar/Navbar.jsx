@@ -8,7 +8,7 @@ const Navbar = () => {
                 <Link to='/'>HOME</Link>
             </li>
             <li className='flex-1'>
-                <Link to='Login'>SIGNUP/LOGIN</Link>
+                <Link to='Login'>{false ? "Login" : "SignOut"}</Link>
             </li>
             <li>
                 <Link to='Cart'>CART</Link>

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import "./itemcards.css";
 
 function ItemsCard({ item }) {
   // when item is clicked, this information should popup in another window
@@ -21,7 +22,7 @@ useEffect(() => {
  })
 
   return (
-    <div className='w-96'>
+    <div className="Cards"  >
       <img src={item.image} alt={item.name} className='w-full'/>
       <h2>{item.name}</h2>
       <p>${item.price}</p>
@@ -33,3 +34,4 @@ useEffect(() => {
 }
 
 export default ItemsCard;
+
