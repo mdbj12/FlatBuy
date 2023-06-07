@@ -10,6 +10,7 @@ const Cart = () => {
     //             setInCart(data.inCart);
     //         });
     // }, []);
+
     return (
         <div>
             <h1>
