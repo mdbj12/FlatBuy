@@ -9,7 +9,7 @@ import SellItems from './SellPage/Sellitems';
 function App() {
   const [userData, setUserData] = useState(null);
   const [login, setLogin] = useState(false);
-  useEffect(() => {
+   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search);
     const sessionData = urlParams.get('session_data');
 
@@ -32,9 +32,17 @@ function App() {
     }
   }, []);
 
+  const handleLogout = () => {
+    // Clear the session data from state
+    setUserData(null);
+    setLogin(false);
+    // Remove the session data from localStorage
+    localStorage.removeItem('sessionData');
+  };
+
   return (
     <BrowserRouter>
-    <Navbar stateoflogin={login} userWelcome={userData}/>
+    <Navbar stateoflogin={login} logout={handleLogout} userWelcome={userData}/>
     <Routes>
         <Route path='/' element={<Homepage userData={userData} />} />
         <Route path='LogIn' element={<Login/>} />

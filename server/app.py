@@ -126,7 +126,6 @@ class Get_Items(Resource):
 api.add_resource(Get_Items, '/items')
 
 class Get_Item_By_ID(Resource):
-    @login_is_required
     def get(self, item_id):
         try :
             item = Item.query.filter_by(id=item_id).first()
@@ -207,23 +206,13 @@ class Get_Rating(Resource):
         except:
             return {'message': 'No rating found'}, 404
     def post(self, item_id):
-        try:
-            ratings = Rating.query.filter_by(item_id=item_id).all()
-            comment = request.json['comment']
-            rating = request.json['rate_score']
-            consumer_id = request.json['consumer_id']
-            for rate in ratings:
-                if rate.consumer_id == consumer_id:
-                    return {'message': 'You have already rated this item'}
-            new_rating = Rating(item_id=item_id, comment=comment, rate_score=rating, consumer_id=consumer_id)
+        
+            new_rating = Rating(item_id=item_id, comment=request.json['comment'], user_id=request.json['user_id'], rate_score=request.json['rate_score'])
             db.session.add(new_rating)
             db.session.commit()
             return new_rating.to_dict(), 200
-        except:
-            return {'message': 'No rating found'}, 404
+        
 api.add_resource(Get_Rating, '/rating/<int:item_id>')
-
-
 
 if __name__ == "__main__":
     app.run(host='127.0.0.1', port=5556, debug=True)
