@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import ItemsList from "./Items/ItemsList";
 import SearchBar from "./SearchBar/Searchbar";
 
-const Homepage = () => {
+const Homepage = ({userData}) => {
   // fetching item data
   const [items, setItems] = useState([]);
   const [searchInput, setSearchInput] = useState("");
@@ -38,7 +38,7 @@ const Homepage = () => {
       </h1>
       <div>
         <SearchBar searchInput={searchInput} handleSearch={handleSearch} />
-        <ItemsList items={filterItems} />
+        <ItemsList items={filterItems} userData={userData} />
       </div>
     </>
   );

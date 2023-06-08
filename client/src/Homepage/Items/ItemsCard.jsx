@@ -8,9 +8,27 @@ import {
   CardFooter,
 } from "@material-tailwind/react";
 
-function ItemsCard({ item }) {
+function ItemsCard({ item, userData  }) {
   // when item is clicked, this information should popup in another window
   // add this functionality piece later
+const handleAddToCart = () => {
+  console.log("clicked");
+  fetch(`http:///127.0.0.1:5556/cart/${userData.id}/${item.id}`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      consumer_id: userData.id,
+      item_id: item.id,
+    }),
+  })
+    .then((r) => r.json())
+    .then((data) => {
+      console.log(data);
+    });
+};
+
 const [reviews, setReviews] = useState([])
 useEffect(() => {
   fetch(`http://127.0.0.1:5556/rating/${item.id}`)
@@ -22,8 +40,8 @@ useEffect(() => {
 }, []);
  const single_review = reviews.map(r => {
   return <div key={r.id}>
-          <p>{r.comment}</p>
-          <p>{r.rate_score}</p>
+          <p>comment {r.comment}</p>
+          <p>Rated {r.rate_score}</p>
         </div>
  })
  return (
@@ -45,16 +63,19 @@ useEffect(() => {
       </div>
       <Typography variant="small" color="gray" className="font-normal opacity-75">
         {item.description}
+        {single_review}
       </Typography>
     </CardBody>
     <CardFooter className="pt-0">
       <Button
+        onClick={handleAddToCart}
         ripple={false}
         fullWidth={true}
         className="bg-blue-gray-900/10 text-blue-gray-900 shadow-none hover:shadow-none hover:scale-105 focus:shadow-none focus:scale-105 active:scale-100"
       >
         Add to Cart
       </Button>
+      
     </CardFooter>
   </Card>
 );

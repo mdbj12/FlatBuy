@@ -24,7 +24,7 @@ function App() {
     <BrowserRouter>
     <Navbar stateoflogin={login} userWelcome={userData}/>
     <Routes>
-        <Route path='/' element={<Homepage />} />
+        <Route path='/' element={<Homepage userData={userData} />} />
         <Route path='LogIn' element={<Login/>} />
         <Route path='Cart' element={<Cart userData={userData}/>}/>
         <Route path='Sell Items' element={<SellItems/>} />

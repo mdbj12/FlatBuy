@@ -5,7 +5,6 @@ const Cart = ({userData}) => {
     const [inCart, setInCart] = useState([]);
 
    useEffect(() => {
-
     fetch(`http://127.0.0.1:5556/cart/${userData.id}`)
       .then((res) => res.json())
       .then((data) => {
@@ -14,7 +13,7 @@ const Cart = ({userData}) => {
   }, []);
   
   const cartItems = inCart.map((items) => {
-    return <CardCard carditem={items.item}></CardCard>
+    return <CardCard  carditem={items.item} quantity={items.quantity} userData={userData} ></CardCard>
   })
 
   console.log(cartItems.price)
@@ -22,7 +21,6 @@ const Cart = ({userData}) => {
     return (
       <div>
         {cartItems}
-
       </div>
     );
   }
