@@ -31,28 +31,8 @@ const Sellitems = () => {
       });
   };
   return (
-    <div
-      className="
-        flex flex-col
-        justify-center items-center
-        w-screen h-screen
-        bg-blue-500
-        rounded-lg
-        shadow-2xl
-        text-black
-        text-2xl
-        font-bold
-        p-10
-        m-10
-    "
-    >
-      <h1
-        className="
-            text-4xl
-            font-bold
-            mb-10
-        "
-      >
+    <div className="flex flex-col justify-center items-center bg-blue-500 rounded-lg shadow-2xl text-black text-2xl font-bold p-10 m-10">
+      <h1 className="text-4xl font-bold mb-10">
         Post an Item for Sale
       </h1>
       <form onSubmit={(e) => {

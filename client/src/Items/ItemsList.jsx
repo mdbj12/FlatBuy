@@ -1,7 +1,7 @@
 import React from "react";
 import ItemsCard from "./ItemsCard";
 
-function ItemsList({items}) {
+function ItemsList({items, userData}) {
     return (
       <ul>
         {items.map((item) => {
@@ -9,6 +9,7 @@ function ItemsList({items}) {
             <ItemsCard
               key={item.id}
               item={item}
+              userData={userData}
             />
           );
         })}

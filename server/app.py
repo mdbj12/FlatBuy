@@ -211,12 +211,12 @@ class Get_Rating(Resource):
         try:
             ratings = Rating.query.filter_by(item_id=item_id).all()
             comment = request.json['comment']
-            rating = request.json['rate_score']
+            rate_score = request.json['rate_score']
             consumer_id = request.json['consumer_id']
             for rate in ratings:
                 if rate.consumer_id == consumer_id:
                     return {'message': 'You have already rated this item'}
-            new_rating = Rating(item_id=item_id, comment=comment, rate_score=rating, consumer_id=consumer_id)
+            new_rating = Rating(item_id=item_id, comment=comment, rate_score=rate_score, consumer_id=consumer_id)
             db.session.add(new_rating)
             db.session.commit()
             return new_rating.to_dict(), 200

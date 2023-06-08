@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import SearchBar from './Searchbar';
+// import SearchBar from './Searchbar';
 
 const Navbar = ({login, userWelcome}) => {
     return (
@@ -13,6 +13,9 @@ const Navbar = ({login, userWelcome}) => {
             </li>
             <li className='flex-1'>
                 <Link to='Cart'>CART</Link>
+            </li>
+            <li className='flex-1'>
+                <Link to='Sell Items'>SELL ITEM</Link>
             </li>
         </ul>
     )

@@ -30,7 +30,7 @@ const Homepage = ({userData}) => {
       <h1 className="text-center text-5xl ">FLATBUY HOMEPAGE</h1>
       <div>
         <SearchBar searchInput={searchInput} handleSearch={handleSearch} />
-        <ItemsList items={filterItems} />
+        <ItemsList items={filterItems} userData={userData} />
       </div>
     </>
   );
