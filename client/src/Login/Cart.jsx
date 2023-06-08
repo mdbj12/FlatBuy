@@ -1,16 +1,18 @@
 import React, { useEffect, useState } from "react";
 
-const Cart = () => {
-    // const [inCart, setInCart] = useState([]);
+const Cart = ({userData}) => {
+    const [inCart, setInCart] = useState([]);
+    console.log(userData)
 
-    // useEffect(() => {
-    //     fetch(`http://127.0.0.1:5555/cart/${id}`)
-    //         .then((res) => res.json())
-    //         .then((data) => {
-    //             setInCart(data.inCart);
-    //         });
-    // }, []);
-
+    useEffect(() => {
+        fetch(`http://127.0.0.1:5556/cart/${userData.id}`)
+            .then((r) => r.json())
+            .then((data) => {
+                setInCart(data);
+            });
+    }, []);
+    console.log(inCart)
+    
     return (
         <div>
             <h1>

@@ -1,6 +1,6 @@
 import React, { useState, useEffect} from "react";
 
-const Reviews = ({item}) => {
+const Reviews = ({item, writeReview}) => {
     const [reviews, setReviews] = useState([])
     useEffect(() => {
     fetch(`http://127.0.0.1:5556/rating/${item.id}`)
@@ -10,6 +10,25 @@ const Reviews = ({item}) => {
             console.log(data)
         });
     }, []);
+
+    // function handleClick(){
+    //     fetch(`/rating/${item.id}`, {
+    //         method: 'POST',
+    //         body: JSON.stringify({
+    //             comment: comment,
+    //             rating: rating,
+    //             consumer_id:
+    //         }),
+    //         headers: {'Content-Type' : 'application/json'}
+    //     })
+    //     .then((r) => r.json())
+    //     .then((data) => {
+    //         console.log(data)
+    //     })
+    //     .catch((err) => {
+    //         console.log(err.message);
+    //     })
+    // }
 
     const single_review = reviews.map(r => {
     return (

@@ -8,6 +8,7 @@ const SearchBar = ({ searchInput, handleSearch }) => {
                 type="text"
                 placeholder="Search..."
                 onChange={(e) => handleSearch(e.target.value)}
+                className="form-input w-full appearance-none rounded border border-gray-500 py-0.5 "
             />
         </div>
     )

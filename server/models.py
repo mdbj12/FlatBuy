@@ -68,27 +68,3 @@ class Item(db.Model, SerializerMixin):
     updated_at = db.Column(db.DateTime, onupdate=db.func.now())
 
     serialize_rules = ('-cart_items', '-rating')
-
-    @validates('category')
-    def validate_category(self, key, category):
-        if category not in ['shirts', 'shoes', 'pants', 'accessories']:
-            raise ValueError("Invalid category")
-        return category
-
-    @validates('inventory_count')
-    def validate_inventory_count(self, key, inventory_count):
-        if inventory_count < 0:
-            raise ValueError("Invalid inventory count")
-        return inventory_count
-
-    @validates('price')
-    def validate_price(self, key, price):
-        if price < 0:
-            raise ValueError("Invalid price")
-        return price
-    
-    @validates('name')
-    def validate_name(self, key, name):
-        if len(name) < 1:
-            raise ValueError("Invalid name")
-        return name
