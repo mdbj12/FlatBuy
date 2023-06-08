@@ -14,7 +14,7 @@ const Navbar = ({stateoflogin, userWelcome}) => {
                 <Link to='Cart'>CART</Link>
             </li>
             <li className='flex-1'>
-                <Link to='Sell Items'>SELL ITEMS</Link>
+                <Link to='Sell Items'>{userWelcome.name}'s' Store</Link>
             </li>
         </ul>
     )

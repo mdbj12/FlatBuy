@@ -4,7 +4,7 @@ import Navbar from './Navbar/Navbar';
 import Login from './LogIn/Login';
 import Homepage from './Homepage/Homepage';
 import Cart from './Cart/Cart';
-import SellItems from './SellPage/Sellitems';
+import SellerStore from './SellPage/SellerStore';
 
 function App() {
   const [userData, setUserData] = useState(null);
@@ -39,7 +39,7 @@ function App() {
         <Route path='/' element={<Homepage userData={userData} />} />
         <Route path='LogIn' element={<Login/>} />
         <Route path='Cart' element={<Cart userData={userData}/>}/>
-        <Route path='Sell Items' element={<SellItems/>} />
+        <Route path='Sell Items' element={<SellerStore/>} />
     </Routes>
     </BrowserRouter>
   );

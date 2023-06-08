@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-const Sellitems = () => {
+const SellCard = ({carditem , quantity}) => {
   const [itemname, setItemName] = useState("");
   const [itemprice, setItemPrice] = useState("");
   const [itemdescription, setItemDescription] = useState("");
@@ -32,19 +32,7 @@ const Sellitems = () => {
   };
   return (
     <div
-      className="
-        flex flex-col
-        justify-center items-center
-        w-screen h-screen
-        bg-blue-500
-        rounded-lg
-        shadow-2xl
-        text-black
-        text-2xl
-        font-bold
-        p-10
-        m-10
-    "
+      className="max-w-sm rounded overflow-hidden shadow-lg m-16 object-contain"
     >
       <h1
         className="
@@ -53,7 +41,7 @@ const Sellitems = () => {
             mb-10
         "
       >
-        Post an Item for Sale
+        New Item
       </h1>
       <form onSubmit={(e) => {
             e.preventDefault();
@@ -62,45 +50,48 @@ const Sellitems = () => {
         className="
             flex flex-col
             justify-center items-center
-            w-1/2
+            p-4
+            accent-black
+            bg-white 
+            shadow-md 
+            rounded 
+            px-8 
+            pt-6 
+            pb-8 
+            mb-4
             "
       >
-        <label>Item Name</label>
         <input
+          className="green-300"
           type="text"
           name="itemname"
           placeholder="Item Name"
           onChange={(e) => setItemName(e.target.value)}
         />
-        <label>Item Price</label>
         <input
           type="text"
           name="itemprice"
           placeholder="Item Price"
           onChange={(e) => setItemPrice(e.target.value)}
         />
-        <label>Item Description</label>
         <input
           type="text"
           name="itemdescription"
           placeholder="Item Description"
           onChange={(e) => setItemDescription(e.target.value)}
         />
-        <label>Item Image</label>
         <input
           type="text"
           name="itemimage"
           placeholder="Item Image"
           onChange={(e) => setItemImage(e.target.value)}
         />
-        <label>Item Category</label>
         <input
           type="text"
           name="itemcategory"
           placeholder="Item Category"
           onChange={(e) => setItemCategory(e.target.value)}
         />
-        <label>Inventory Count</label>
         <input
           type="text"
           name="inventory_count"
@@ -122,6 +113,27 @@ const Sellitems = () => {
       </form>
     </div>
   );
-};
 
-export default Sellitems;
+  // return (
+  //   <div className = {displayQuantity > 0 ? "flex justify-center" : 'hidden' }>
+  //     <div className="max-w-sm rounded overflow-hidden shadow-lg">
+  //       <img className="w-full" src={carditem.image} alt="Sunset in the mountains" />
+  //       <div className="px-6 py-4">
+  //         <div className="font-bold text-xl mb-2">{carditem.name}</div>
+  //         <p className="text-gray-700 text-base">
+  //           {carditem.description}
+  //         </p>
+  //       </div>
+  //       <div className="px-6 pt-4 pb-2">
+  //         <span className=' inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2'>Qty {displayQuantity}</span>
+  //         <span className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2">${carditem.price}</span>
+  //         <span className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2">{carditem.category}</span>
+  //         {/* <button onClick={handleRemoveFromCart} className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded' type='button'>Remove from cart</button> */}
+  //       </div>
+  //     </div>
+  //   </div>
+
+  // )
+}
+
+export default SellCard
