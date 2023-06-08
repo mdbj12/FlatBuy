@@ -12,11 +12,23 @@ function App() {
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search);
     const sessionData = urlParams.get('session_data');
-    
+
     if (sessionData) {
       const userData = JSON.parse(sessionData);
       setUserData(userData);
       setLogin(true);
+
+      // Cache the session data in localStorage
+      localStorage.setItem('sessionData', sessionData);
+    } else {
+      // Check if session data is cached in localStorage
+      const cachedSessionData = localStorage.getItem('sessionData');
+
+      if (cachedSessionData) {
+        const cachedUserData = JSON.parse(cachedSessionData);
+        setUserData(cachedUserData);
+        setLogin(true);
+      }
     }
   }, []);
 
