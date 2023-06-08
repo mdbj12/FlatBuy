@@ -87,7 +87,7 @@ def callback():
 @app.route("/logout")
 def logout():
     session.clear()
-    return redirect("/")
+    return redirect("http://localhost:3000/")
 
 @app.route("/")
 def index():

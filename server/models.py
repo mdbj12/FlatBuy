@@ -38,6 +38,7 @@ class CartItem(db.Model, SerializerMixin):
     created_at = db.Column(db.DateTime, server_default=db.func.now())
     updated_at = db.Column(db.DateTime, onupdate=db.func.now())
     items = association_proxy('item', 'name')
+   
 
 class Rating(db.Model, SerializerMixin):
     __tablename__ = 'ratings'
