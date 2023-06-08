@@ -1,12 +1,11 @@
 import React from 'react'
 
 
-const CardCard = ({carditem , quantity, userData}) => {
-console.log(carditem.user_id)
+const CardCard = ({carditem , quantity, userData , deleteit}) => {
 
 const handleRemoveFromCart = () => {
   console.log("clicked");
-  fetch(`http:///127.0.0.1:5556/cart/${userData.id}/${item.id}`
+  fetch(`http://127.0.0.1:5556/cart/${userData.id}/${carditem.id}`
   , {
     method: "DELETE",
     headers: {
@@ -14,15 +13,14 @@ const handleRemoveFromCart = () => {
     },
     body: JSON.stringify({
       consumer_id: userData.id,
-      item_id: item.id,
+      item_id: carditem.id,
     }),
   })
     .then((r) => r.json())
     .then((data) => {
-      console.log(data);
+      deleteit(data.id);
     });
 };
-
   return (
     <div className="flex justify-center">
       <div className="max-w-sm rounded overflow-hidden shadow-lg">
@@ -37,7 +35,7 @@ const handleRemoveFromCart = () => {
           <span className=' inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2'>Qty {quantity}</span>
           <span className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2">${carditem.price}</span>
           <span className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2">{carditem.category}</span>
-          <button className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded' type='button'>Remove from cart</button>
+          <button onClick={handleRemoveFromCart} className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded' type='button'>Remove from cart</button>
         </div>
       </div>
     </div>

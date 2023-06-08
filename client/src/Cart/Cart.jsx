@@ -11,9 +11,15 @@ const Cart = ({userData}) => {
         setInCart(data);
       });
   }, []);
+
+  const handledelete = (id) => {
+    const deleteItem = inCart.filter((item) => item.id !== id);
+    setInCart(deleteItem); 
+  };
+    
   
   const cartItems = inCart.map((items) => {
-    return <CardCard  carditem={items.item} quantity={items.quantity} userData={userData} ></CardCard>
+    return <CardCard  carditem={items.item} quantity={items.quantity} userData={userData} deleteit={handledelete} ></CardCard>
   })
 
   console.log(cartItems.price)
