@@ -151,7 +151,6 @@ class Get_Item_By_ID(Resource):
 api.add_resource(Get_Item_By_ID, '/items/<int:item_id>')
 
 class Get_Cart_by_consumer(Resource):
-    @login_is_required
     def get(self, consumer_id):
         try:
             cart = Cart.query.filter_by(user_id=consumer_id).first()

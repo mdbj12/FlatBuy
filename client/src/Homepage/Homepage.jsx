@@ -6,24 +6,10 @@ const Homepage = () => {
   // fetching item data
   const [items, setItems] = useState([]);
   const [searchInput, setSearchInput] = useState("");
-  const [userData, setUserData] = useState(null); // Initialize state to null
-
-
+   // Initialize state to null  
   function handleSearch(input) {
     setSearchInput(input);
   }
-
-  
-  useEffect(() => {
-    const urlParams = new URLSearchParams(window.location.search);
-    const sessionData = urlParams.get('session_data');
-    
-    if (sessionData) {
-      const userData = JSON.parse(sessionData);
-      setUserData(userData);
-    }
-  }, []);
-  
   useEffect(() => {
     fetch("http://127.0.0.1:5556/items")
     .then((r) => r.json())
@@ -36,8 +22,6 @@ const Homepage = () => {
     return item.name.toLowerCase().includes(searchInput.toLowerCase());
   });
   
-  console.log(userData);
-
   return (
     <>
       <h1

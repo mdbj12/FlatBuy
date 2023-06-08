@@ -2,7 +2,7 @@ import React from "react";
 
 const SearchBar = ({ searchInput, handleSearch }) => {
     return (
-        <div>
+        <div className="flex justify-center items-center mt-4 mb-4">
             <input
                 value={searchInput}
                 type="text"

@@ -1,10 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-
-
 const Login = () => {
-
     return (
         <>
             <h1 className="text-center text-5xl " style={{ color: "#F59E0B", fontFamily: "Roboto", fontWeight: "bold", marginTop: "2rem" , marginBottom: "2rem"  }} >THE FLATBUY</h1>
