@@ -7,7 +7,7 @@ function ItemsCard({ item, userData }) {
   const [isOpen, setIsOpen] = useState(false)
   const [itemRating, setItemRating] = useState('')
   const [itemComment, setItemComment] = useState('')
-  const [addItem, setAddItem] = useState([])
+  // const [addItem, setAddItem] = useState([])
 
   const handleSubmitReview = (e) => {
     console.log(itemRating, itemComment, userData, item.id)
@@ -20,8 +20,7 @@ function ItemsCard({ item, userData }) {
         body: JSON.stringify({
             rate_score: itemRating,
             comment: itemComment,
-            consumer_id: userData.id,
-            // item_id: item.id
+            user_id: userData.id
         })
     })
     .then((r) => r.json())
@@ -30,13 +29,26 @@ function ItemsCard({ item, userData }) {
     })
   }
 
-  function handleReview(){
-    setCardFlip((cardFlip) => !cardFlip)
+  const handleAddItem = () => {
+    console.log('clicked')
+    fetch(`http://127.0.0.1:5556/cart/${userData.id}/${item.id}`, {
+      method: 'POST',
+      headers: {
+        'Content-type': 'application/JSON'
+      },
+      body: JSON.stringify({
+        consumer_id: userData.id,
+        item_id: item.id
+      })
+    })
+    .then(r => r.json())
+    .then((data) => {
+      console.log(data)
+    })
   }
 
-  function handleAddItem(newItem){
-    setAddItem([...addItem, newItem])
-    console.log('clicked')
+  function handleReview(){
+    setCardFlip((cardFlip) => !cardFlip)
   }
 
   const toggleModal = () => {
@@ -52,15 +64,14 @@ function ItemsCard({ item, userData }) {
   }
 
   return (
-    <div className='w-64 rounded-lg bg-slate-600 shadow-2xl dark:bg-neutral-700 grid grid-cols-3 content-stretch'>
+    <div className='w-64 rounded-lg bg-slate-300 shadow-2xl grid grid-cols-3 content-stretch'>
       <button>
         <img
           src={item.image}
           alt={item.name}
-          onClick={handleReview}
-          className="rounded-t-lg row-span-1"
+          className="w-full transform transition-transform duration-500 ease-in-out hover:scale-100"
         />
-        <h2 className="mb-2 text-xl font-medium leading-tight text-slate-400">{item.name}</h2>
+        <h2 onClick={handleReview} className="mb-2 text-xl font-medium leading-tight text-slate-400">{item.name}</h2>
         <h3 className="mb-2 text-lg font-medium leading-tight text-slate-400">${item.price}</h3>
         <p className="mb-2">Available Amount: {item.inventory_count}</p>
         {cardFlip ? <Reviews item={item} /> : null}
@@ -68,15 +79,17 @@ function ItemsCard({ item, userData }) {
       <button onClick={handleAddItem}>
         <h1>Add to Cart</h1>
       </button>
-      <button onClick={toggleModal} > Write Review </button>
+      <div>
+        <button onClick={toggleModal} className='' > Write Review </button>
+      </div>
         {
           <div>
-            <h1>Write Review</h1>
             <Modal
               isOpen={isOpen}
               onRequestClose={toggleModal}
               contentLabel="Form Popup"
-              ariaHideApp={false} >
+              ariaHideApp={false}
+              className=''>
               <form onSubmit={submitReview}>
                 <label>Rating</label>
                 <br></br>

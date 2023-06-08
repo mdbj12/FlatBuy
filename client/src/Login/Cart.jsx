@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import CartCard from "./CartCard";
 
 const Cart = ({userData}) => {
     const [inCart, setInCart] = useState([]);
@@ -12,12 +13,19 @@ const Cart = ({userData}) => {
             });
     }, []);
     console.log(inCart)
-    
+
+    const handledelete = (id) => {
+        const deleteItem = inCart.filter((item) => item.id !== id);
+        setInCart(deleteItem); 
+    };
+
+    const cartItems = inCart.map((items) => {
+        return <CartCard carditem={items.item} quantity={items.quantity} userData={userData} deleteit={handledelete}/>
+    })
+
     return (
         <div>
-            <h1>
-                Test
-            </h1>
+            {cartItems}
         </div>
     )
 }

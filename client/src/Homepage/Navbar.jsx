@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 
 const Navbar = ({login, userWelcome}) => {
     return (
-        <ul className='flex bg-blue-500 h-8 text-center'>
+        <ul className='flex bg-blue-500 h-16 justify-around items-center'>
             <li className='flex-1'>
                 <Link to='/'>FLATBUY</Link>
             </li>

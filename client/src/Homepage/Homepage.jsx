@@ -27,7 +27,7 @@ const Homepage = ({userData}) => {
       
   return (
     <>
-      <h1 className="text-center text-5xl ">FLATBUY HOMEPAGE</h1>
+      <h1 className="text-center text-5xl" style={{color:'#f59e0b', fontFamily:'Roboto', fontWeight:'bolder', margin:'2rem' }}>FLATBUY</h1>
       <div>
         <SearchBar searchInput={searchInput} handleSearch={handleSearch} />
         <ItemsList items={filterItems} userData={userData} />

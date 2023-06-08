@@ -18,6 +18,18 @@ function App() {
       const userData = JSON.parse(sessionData);
       setUserData(userData);
       setLogin(true);
+
+      // cache session data in local storage
+      localStorage.setItem('sessionData', sessionData)
+    } else {
+      // check if session data is cached locally
+      const cachedSessionData = localStorage.getItem('sessionData');
+
+      if (cachedSessionData) {
+        const cachedUserData = JSON.parse(cachedSessionData);
+        setUserData(cachedUserData);
+        setLogin(true);
+      }
     }
   }, []);
   console.log(userData)

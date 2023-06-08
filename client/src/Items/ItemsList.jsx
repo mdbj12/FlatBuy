@@ -3,7 +3,7 @@ import ItemsCard from "./ItemsCard";
 
 function ItemsList({items, userData}) {
     return (
-      <ul>
+      <div style={{display:'flex', flexWrap:'wrap', justifyContent:'space-around', margin:'2rem'}}>
         {items.map((item) => {
           return (
             <ItemsCard
@@ -13,7 +13,7 @@ function ItemsList({items, userData}) {
             />
           );
         })}
-      </ul>
+      </div>
     );
 }
 
