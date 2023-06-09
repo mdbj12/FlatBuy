@@ -5,24 +5,24 @@ import Homepage from './Homepage/Homepage';
 import Cart from './Login/Cart';
 import Login from './Login/Login';
 import Sellitems from './Items/SellItem';
+import SellerStore from './SellPage/SellerPage';
 
 function App() {
   const [userData, setUserData] = useState(null);
   const [login, setLogin] = useState(false);
-
-  useEffect(() => {
+   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search);
     const sessionData = urlParams.get('session_data');
 
-    if (sessionData){
+    if (sessionData) {
       const userData = JSON.parse(sessionData);
       setUserData(userData);
       setLogin(true);
 
-      // cache session data in local storage
-      localStorage.setItem('sessionData', sessionData)
+      // Cache the session data in localStorage
+      localStorage.setItem('sessionData', sessionData);
     } else {
-      // check if session data is cached locally
+      // Check if session data is cached in localStorage
       const cachedSessionData = localStorage.getItem('sessionData');
 
       if (cachedSessionData) {
@@ -32,16 +32,23 @@ function App() {
       }
     }
   }, []);
-  console.log(userData)
+
+  const handleLogout = () => {
+    // Clear the session data from state
+    setUserData(null);
+    setLogin(false);
+    // Remove the session data from localStorage
+    localStorage.removeItem('sessionData');
+  };
 
   return (
     <BrowserRouter>
-    <Navbar login={login} userWelcome={userData} />
+    <Navbar stateoflogin={login} logout={handleLogout} userWelcome={userData}/>
     <Routes>
         <Route path='/' element={<Homepage userData={userData} />} />
-        <Route path='Login' element={<Login />} />
-        <Route path='Cart' element={<Cart userData={userData} />} />
-        <Route path='Sell Items' element={<Sellitems />} />
+        <Route path='LogIn' element={<Login/>} />
+        <Route path='Cart' element={<Cart userData={userData}/>}/>
+        <Route path='Sell Items' element={<SellerStore />} />
     </Routes>
     </BrowserRouter>
   );

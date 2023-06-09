@@ -1,7 +1,7 @@
 import os
 import pathlib
 import requests
-from flask import Flask, session, abort, redirect, request, jsonify, url_for
+from flask import Flask, session, abort, redirect, request, jsonify , url_for
 from flask_migrate import Migrate
 from flask_restful import Api, Resource
 from flask_cors import CORS
@@ -12,19 +12,17 @@ from pip._vendor import cachecontrol
 import google.auth.transport.requests
 import json
 import urllib.parse
-client_secrets_loc = open("./client_secret.json")
-client_secrets_keys = json.load(client_secrets_loc)
 
 app = Flask(__name__)
 CORS(app)
-app.secret_key = client_secrets_keys["web"]["client_secret"]  # make sure this matches with what's in client_secret.json
+app.secret_key = "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"  # make sure this matches with what's in client_secret.json
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///db.sqlite"
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 app.json.compact = False
 
 os.environ["OAUTHLIB_INSECURE_TRANSPORT"] = "1"  # to allow HTTP traffic for local dev
 
-GOOGLE_CLIENT_ID = client_secrets_keys["web"]["client_id"]
+GOOGLE_CLIENT_ID = "557494592758-jfirv2i2cpb2dq3hved78ajtuctjvjnu.apps.googleusercontent.com"
 client_secrets_file = os.path.join(pathlib.Path(__file__).parent, "client_secret.json")
 
 flow = Flow.from_client_secrets_file(
@@ -89,7 +87,7 @@ def callback():
 @app.route("/logout")
 def logout():
     session.clear()
-    return redirect("/")
+    return redirect("http://localhost:3000/")
 
 @app.route("/")
 def index():
@@ -105,8 +103,9 @@ def protected_area():
             "name": session["name"],
             "email": session["email"]
         }
+        
         session_data = urllib.parse.quote(json.dumps(user_data))
-        redirect_url = 'http://localhost:3000/?session_data=' + session_data
+        redirect_url = "http://localhost:3000/?session_data=" + session_data
         return redirect(redirect_url)
     else:
         return jsonify({"error": "User not found"})
@@ -127,7 +126,6 @@ class Get_Items(Resource):
 api.add_resource(Get_Items, '/items')
 
 class Get_Item_By_ID(Resource):
-    @login_is_required
     def get(self, item_id):
         try :
             item = Item.query.filter_by(id=item_id).first()
@@ -208,13 +206,12 @@ class Get_Rating(Resource):
         except:
             return {'message': 'No rating found'}, 404
     def post(self, item_id):
-        try:
+        
             new_rating = Rating(item_id=item_id, comment=request.json['comment'], user_id=request.json['user_id'], rate_score=request.json['rate_score'])
             db.session.add(new_rating)
             db.session.commit()
             return new_rating.to_dict(), 200
-        except:
-            return {'message': 'No rating found'}, 404
+        
 api.add_resource(Get_Rating, '/rating/<int:item_id>')
 
 if __name__ == "__main__":
