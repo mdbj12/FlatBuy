@@ -1,6 +1,6 @@
 import React, {useEffect,useState} from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import Navbar from './Navbar/Navbar';
+import ComplexNavbar from './Navbar/ComplexNavbar';
 import Login from './LogIn/Login';
 import Homepage from './Homepage/Homepage';
 import Cart from './Cart/Cart';
@@ -42,7 +42,7 @@ function App() {
 
   return (
     <BrowserRouter>
-    <Navbar stateoflogin={login} logout={handleLogout} userWelcome={userData}/>
+    <ComplexNavbar stateoflogin={login} logout={handleLogout} userWelcome={userData}/>
     <Routes>
         <Route path='/' element={<Homepage userData={userData} />} />
         <Route path='LogIn' element={<Login/>} />

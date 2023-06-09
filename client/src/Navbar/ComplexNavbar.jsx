@@ -1,7 +1,7 @@
-    import React from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 
-const Navbar = ({stateoflogin, userWelcome , logout}) => {
+const ComplexNavbar = ({stateoflogin, userWelcome , logout}) => {
 console.log(stateoflogin, userWelcome)
 return (
     <ul className="flex bg-blue-500 h-16 justify-around items-center">
@@ -36,4 +36,4 @@ return (
     </ul>
   );
 };
-export default Navbar;
+export default ComplexNavbar;
