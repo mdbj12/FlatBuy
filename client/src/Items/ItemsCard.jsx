@@ -64,23 +64,24 @@ function ItemsCard({ item, userData }) {
   }
 
   return (
-    <div className='w-64 rounded-lg bg-slate-300 shadow-2xl grid grid-cols-3 content-stretch'>
+    <li className="grid">
       <button>
         <img
           src={item.image}
           alt={item.name}
-          className="w-full transform transition-transform duration-500 ease-in-out hover:scale-100"
+          className="h-16 w-16 rounded object-cover"
         />
-        <h2 onClick={handleReview} className="mb-2 text-xl font-medium leading-tight text-slate-400">{item.name}</h2>
-        <h3 className="mb-2 text-lg font-medium leading-tight text-slate-400">${item.price}</h3>
-        <p className="mb-2">Available Amount: {item.inventory_count}</p>
+        <h2 onClick={handleReview} className="text-sm text-gray-900">{item.name}</h2>
+        <h3 className="text-sm text-gray-900">${item.price}</h3>
+        <p className="h-8 w-12 rounded border-gray-200 bg-gray-50 p-0 text-center text-xs text-gray-600 [-moz-appearance:_textfield] focus:outline-none [&::-webkit-inner-spin-button]:m-0 [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:m-0 [&::-webkit-outer-spin-button]:appearance-none">Available Amount: {item.inventory_count}</p>
         {cardFlip ? <Reviews item={item} /> : null}
       </button>
-      <button onClick={handleAddItem}>
+      <br></br>
+      <button onClick={handleAddItem} className="text-gray-900 transition hover:bg-green-400 rounded">
         <h1>Add to Cart</h1>
       </button>
       <div>
-        <button onClick={toggleModal} className='' > Write Review </button>
+        <button onClick={toggleModal} className='text-gray-900 transition hover:bg-amber-300 rounded' > Write Review </button>
       </div>
         {
           <div>
@@ -91,32 +92,34 @@ function ItemsCard({ item, userData }) {
               ariaHideApp={false}
               className=''>
               <form onSubmit={submitReview}>
-                <label>Rating</label>
+                <label className="flex">Rating</label>
                 <br></br>
                 <input
                   type="number"
                   name="itemRating"
                   placeholder="Rate out of 5!"
                   onChange={(e) => setItemRating(e.target.value)}
+                  className='rounded shadow-lg px-16 flex'
                 />
                 <br></br>
-                <label>Comments</label>
+                <label className="flex">Comments</label>
                 <br></br>
                 <input
                   type="text"
                   name='itemComment'
                   placeholder="What did you think?"
                   onChange={(e) => setItemComment(e.target.value)}
+                  className="rounded shadow-lg px-16 py-2 flex"
                 />
                 <br></br>
-                <button type="submit">Submit</button>
+                <button type="submit" className="text-center px-28 py-6 hover:bg-blue-200 font-bold rounded flex">Submit</button>
                 <br></br>
-                <button type="button" onClick={toggleModal}>Cancel</button>
+                <button type="button" onClick={toggleModal} className="text-center px-28 py-6 hover:bg-red-200 font-bold rounded flex">Cancel</button>
               </form>
             </Modal>
           </div>
         }
-    </div>
+    </li>
   );
 }
 

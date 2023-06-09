@@ -4,7 +4,6 @@ import Navbar from './Homepage/Navbar';
 import Homepage from './Homepage/Homepage';
 import Cart from './Login/Cart';
 import Login from './Login/Login';
-import Sellitems from './Items/SellItem';
 import SellerStore from './SellPage/SellerPage';
 
 function App() {

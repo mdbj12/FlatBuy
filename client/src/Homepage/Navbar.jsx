@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 const Navbar = ({stateoflogin, userWelcome , logout}) => {
     console.log(stateoflogin, userWelcome)
     return (
-        <ul className="flex bg-blue-500 h-16 justify-around items-center">
+        <ul className="flex bg-blue-500 h-16 justify-around items-center shadow-lg ">
           <li className="flex-1">
             <Link to="/">HOME</Link>
           </li>
