@@ -15,14 +15,14 @@ import urllib.parse
 
 app = Flask(__name__)
 CORS(app)
-app.secret_key = "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"  # make sure this matches with what's in client_secret.json
+app.secret_key = ""  # make sure this matches with what's in client_secret.json
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///db.sqlite"
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 app.json.compact = False
 
 os.environ["OAUTHLIB_INSECURE_TRANSPORT"] = "1"  # to allow HTTP traffic for local dev
 
-GOOGLE_CLIENT_ID = "557494592758-jfirv2i2cpb2dq3hved78ajtuctjvjnu.apps.googleusercontent.com"
+GOOGLE_CLIENT_ID = ""  # make sure this matches with what's in client_secret.json
 client_secrets_file = os.path.join(pathlib.Path(__file__).parent, "client_secret.json")
 
 flow = Flow.from_client_secrets_file(

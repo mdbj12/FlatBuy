@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import Modal from "react-modal";
 import Reviews from "./Reviews";
 
@@ -64,7 +64,7 @@ function ItemsCard({ item, userData }) {
   }
 
   return (
-    <li className="grid">
+    <li className="grid p-8">
       <button>
         <img
           src={item.image}
